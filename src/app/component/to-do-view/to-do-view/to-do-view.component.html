@@ -1,0 +1,55 @@
+<div class="page-content page-container" id="page-content">
+  <div class="padding">
+      <div class="row container d-flex justify-content-center">
+          <div class="col-md-12">
+              <div class="card px-3">
+                  <div class="card-body">
+                      <h4 class="card-title">Awesome Todo list</h4>
+
+                      <div class="add-items d-flex">
+                          <input type="text" class="form-control todo-list-search" placeholder="Search tasks..." [(ngModel)]="searchTerm">
+                      </div>
+
+                      <div class="list-wrapper">
+                          <ul class="d-flex flex-column-reverse todo-list">
+                              <li class="d-flex justify-content-between" *ngFor="let item of filteredTasks">
+
+                                  <div class="form-check">
+                                      <label class="form-check-label cross" for="task-{{item.id}}">
+                                          <input class="checkbox" type="checkbox" id="task-{{item.id}}" [(ngModel)]="item.completed" (click)="toggleCompletion(item)">
+                                          <span [style.text-decoration]="item.completed ? 'line-through' : 'none'">
+                                              {{ item.title }}
+                                          </span>
+                                          <i class="input-helper"></i>
+                                      </label>
+                                  </div>
+
+                                  <div>
+                                    <button (click)="deleteTask(item.id)" class="btn btn-sm">
+                                      <i class="fa-solid fa-trash fa-xl"></i>
+                                  </button>
+
+                                  <button (click)="openDetails(item)" class="btn btn-sm">
+                                    <i class="fa-regular fa-eye fa-lg"></i>
+                                  </button>
+                                  </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="backdrop" *ngIf="selectedTask"></div>
+
+<div class="popup-overlay" *ngIf="selectedTask" (click)="closeDetails()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <h2>{{ selectedTask.title }}</h2>
+    <p><strong>Description:</strong> {{ selectedTask.description }}</p>
+    <p class="deadline"><strong>Deadline:</strong> {{ selectedTask.deadline }}</p>
+    <button class="btnpop" (click)="closeDetails()">Close</button>
+  </div>
+</div>
